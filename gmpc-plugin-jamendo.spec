@@ -11,6 +11,7 @@ Source0:	http://downloads.sourceforge.net/musicpd/%{source_name}-%{version}.tar.
 URL:		http://gmpc.wikia.com/wiki/GMPC_PLUGIN_JAMENDO
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
+BuildRequires:	gettext-devel
 BuildRequires:	gmpc-devel >= 0.19.0
 BuildRequires:	gob2 >= 2.0.10
 BuildRequires:	gtk+2-devel >= 2:2.4
