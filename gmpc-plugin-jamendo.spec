@@ -26,6 +26,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Browse and listen to music from Jamendo service.
 
+%description -l pl.UTF-8
+Przeglądanie i słuchanie muzyki z usługi Jamendo.
+
 %prep
 %setup -q -n %{source_name}-%{version}
 
