@@ -1,0 +1,45 @@
+--- gmpc-jamendo-11.8.16/src/jamendo.c.orig	2011-08-17 05:17:04.000000000 +0200
++++ gmpc-jamendo-11.8.16/src/jamendo.c	2025-09-02 18:17:16.913387001 +0200
+@@ -323,7 +323,7 @@ void jamendo_db_load_data(const char *da
+             {
+                 char *query = sqlite3_mprintf("INSERT INTO 'Artist' ('artist', 'image') VALUES('%q','%q')",
+                         artist,
+-                        (image != NULL)?image:""); 
++                        (image != NULL)?(char*)image:""); 
+                 sqlite3_exec(jamendo_sqlhandle, query, NULL, NULL, NULL);
+                 sqlite3_free(query);
+                 while(cur_albums)
+--- gmpc-jamendo-11.8.16/src/plugin.c.orig	2025-09-02 18:25:39.229810738 +0200
++++ gmpc-jamendo-11.8.16/src/plugin.c	2025-09-02 18:25:43.139834785 +0200
+@@ -29,11 +29,13 @@
+ #include <gmpc-mpddata-model.h>
+ #include <gmpc-mpddata-treeview.h>
+ #include <gmpc-extras.h>
++#include <mpdinteraction.h>
+ #include <sqlite3.h>
+ #include "jamendo.h"
+ #include <libmpd/debug_printf.h>
+ 
+ extern GtkBuilder *pl3_xml;
++void jamendo_db_load_data(const char *data, const goffset length);
+ 
+ gmpcPlugin plugin;
+ /**
+@@ -279,7 +281,7 @@ static void jamendo_show_artist_list(Gtk
+             data = jamendo_db_get_album_list(genre ,artist);
+             gmpc_mpddata_model_set_request_artist(GMPC_MPDDATA_MODEL(gtk_tree_view_get_model(GTK_TREE_VIEW(treeviews[2]))),artist);
+ 
+-            GmpcMpdDataTreeviewTooltip *tool = gtk_widget_get_tooltip_window(GTK_WIDGET(treeviews[2]));
++            GmpcMpdDataTreeviewTooltip *tool = GMPC_MPD_DATA_TREEVIEW_TOOLTIP(gtk_widget_get_tooltip_window(GTK_WIDGET(treeviews[2])));
+             if(tool->request_artist){
+                 g_free(tool->request_artist);
+             }
+@@ -336,7 +338,7 @@ static void jamendo_init()
+     GtkTreeModel *model         = NULL;
+     GtkTreeViewColumn *column   = NULL;
+ 	jamendo_vbox = gtk_hpaned_new();
+-	gmpc_paned_size_group_add_paned(paned_size_group, GTK_PANED(jamendo_vbox));
++	gmpc_paned_size_group_add_paned(GMPC_PANED_SIZE_GROUP(paned_size_group), GTK_PANED(jamendo_vbox));
+    
+ 
+     vbox = gtk_vbox_new(FALSE,6);

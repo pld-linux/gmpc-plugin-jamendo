@@ -3,11 +3,12 @@ Summary:	Jamendo plugin for Gnome Music Player Client
 Summary(pl.UTF-8):	Wtyczka udostępniająca dane z Jamendo dla odtwarzacza Gnome Music Player Client
 Name:		gmpc-plugin-jamendo
 Version:	11.8.16
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Sound
 Source0:	https://download.sarine.nl/Programs/gmpc/%{version}/%{source_name}-%{version}.tar.gz
 # Source0-md5:	7395074612fd7e1eec00427b65c9f188
+Patch0:		gmpc-jamendo-types.patch
 URL:		https://gmpc.fandom.com/wiki/GMPC_PLUGIN_JAMENDO
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake >= 1.6
@@ -38,6 +39,7 @@ Przeglądanie i słuchanie muzyki z usługi Jamendo.
 
 %prep
 %setup -q -n %{source_name}-%{version}
+%patch -P0 -p1
 
 %build
 %{__libtoolize}
